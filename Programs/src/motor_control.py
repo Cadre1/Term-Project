@@ -30,8 +30,6 @@ class MotorControl:
         @returns The output effort of the proportional controller
         """
         time = utime.ticks_ms()
-        self.times.append(time)
-        self.positions.append(measured_output)
         
         error = self.setpoint - measured_output
         output = self.Kp*error
