@@ -34,19 +34,17 @@ def task1_fun(shares):
         if state == 0:
             print('state 0 for task 1')
             # Initializes pins and timers
-            # EDIT: Add GPIO Pin To Observe Voltage Input
-            
             pinB0 = pyb.ADC(pyb.Pin.board.PB0)
             state = 1
-        elif state == 1:
             print('state 1 for task 1')
+        elif state == 1:
             # Waits for an Input from the GPIO Pin
             # EDIT: Pass this state if we choose to just use the restart as our start the match trigger
             if (pinB0.read()*3.3/4095) >= 2:
                 state = 2
+                print('state 2 for task 1')
             #state = 2
         elif state == 2:
-            print('state 2 for task 1')
             # Waits 5 seconds for the starting phase
             time_interval = 5000 # 5 second overall run time
             start_time = utime.ticks_ms()
@@ -57,8 +55,8 @@ def task1_fun(shares):
                 yield 0
             Start_Flag.put(1)
             state = 3
-        elif state == 3:
             print('state 3 for task 1')
+        elif state == 3:
             # Waits 10 seconds for the shooting phase
             time_interval = 10000 # 10 second overall run time
             start_time = utime.ticks_ms()
@@ -70,8 +68,8 @@ def task1_fun(shares):
             Start_Flag.put(0)
             Stop_Flag.put(1)
             state = 4
-        elif state == 4:
             print('state 4 for task 1')
+        elif state == 4:
             # Waits 1 second for the stopping phase
             time_interval = 1000 # 1 second overall run time
             start_time = utime.ticks_ms()
@@ -83,8 +81,8 @@ def task1_fun(shares):
             Stop_Flag.put(0)
             Return_Flag.put(1)
             state = 5
-        elif state == 5:
             print('state 5 for task 1')
+        elif state == 5:
             # Waits 3 seconds for the returning phase
             time_interval = 3000 # 3 second overall run time
             start_time = utime.ticks_ms()
@@ -114,8 +112,8 @@ def task2_fun(shares):
             # Initializes pins, timers, and I2C for the Panning Motor and Encoder, Flywheel GPIO Pin, IR Sensor, and Servo 
 
             # Initializes the GPIO Pin for the flywheel motor MOSFET
-            PC0 = pyb.Pin(pyb.Pin.board.PC0, pyb.Pin.OUT_PP)
-            PC0.low()
+            PC1 = pyb.Pin(pyb.Pin.board.PC1, pyb.Pin.OUT_PP)
+            PC1.low()
 
             # Initializes the I2C for the IR Sensor
             i2c_bus = I2C(1)
@@ -164,22 +162,27 @@ def task2_fun(shares):
             my_servo = servo.Servo(pin=servo_pin, timer=s_timer, zero_angle=80)
             
             shoot = 1
-            refire = 0 # Number of additional shots
+            refire = 3 # Number of additional shots
             state = 1
-        elif state == 1:
             print('state 1 for task 2')
+        elif state == 1:
             # Waits for the start of the shooting phase
             if Start_Flag.get():
                 state = 2
+                print('state 2 for task 2')
         elif state == 2:
-            print('state 2 for task 2')
             # Determines the position that the turret needs to be at to be centered on the target
             if Stop_Flag.get():
                 state = 5
+                print('state 5 for task 2')
             else:
                 # Keeps trying to get an image until it collects one
                 image = None
                 while not image:
+                    if Stop_Flag.get():
+                        state = 5
+                        print('state 5 for task 2')
+                        break
                     image = camera.get_image_nonblocking()
                     yield 0
                 
@@ -192,17 +195,19 @@ def task2_fun(shares):
                 count_per_180 = 80000
                 count_per_degree = count_per_180/180
                 horz_angle = 55/32*x_bar
+                print(horz_angle)
                 dcount = horz_angle*count_per_degree
                 des_pos = count_per_180 + dcount
                 state = 3
+                print('state 3 for task 2')
         elif state == 3:
-            print('state 3 for task 2')
             # Rotates the turret to the calculated encoder position
             if Stop_Flag.get():
                 state = 5
+                print('state 5 for task 2')
             else:
                 # Turns on the flywheel
-                PC0.high()
+                PC1.high()
                 
                 # Sets the setpoint and Kp
                 setpoint = des_pos
@@ -210,12 +215,13 @@ def task2_fun(shares):
                 moe_con.set_Kp(Kp)
                 moe_con.set_setpoint(setpoint)
                 
-                time_interval = 250 # 0.25 second stay-within-range time
+                time_interval = 1000 # 0.25 second stay-within-range time
                 first_time = 1
                 
                 while True:
                     if Stop_Flag.get():
                         state = 5
+                        print('state 5 for task 2')
                         break
                     else:
                         curr_time = utime.ticks_ms()
@@ -233,15 +239,16 @@ def task2_fun(shares):
                                 first_time = 1
                                 moe.set_duty_cycle(0)
                                 state = 4
+                                print('state 4 for task 2')
                                 break
                         else:
                             first_time = 1
                     yield 0
         elif state == 4:
-            print('state 4 for task 2')
             # Uses the servo motor to pull the trigger
             if Stop_Flag.get():
                 state = 5
+                print('state 5 for task 2')
             else:
                 if shoot:
                     # Move Servo to firing angle of 45 degrees.
@@ -262,21 +269,20 @@ def task2_fun(shares):
                     shoot = 0
                 else:
                     my_servo.SetAngle(80)
-                    PC0.low()
+                    PC1.low()
                     if refire >= 0:
                         shoot = 1
                         state = 2
         elif state == 5:
-            print('state 5 for task 2')
             # Stops all motor motion and resets servo
-            PC0.low()
+            PC1.low()
             moe.set_duty_cycle(0)
             my_servo.SetAngle(80)
             if Return_Flag.get():
                 des_pos = 0
                 state = 6
+                print('state 6 for task 2')
         elif state == 6:
-            print('state 6 for task 2')
             # Returns to initial motor position, then disables the motor and waits
             # Sets the setpoint and Kp
             setpoint = des_pos
@@ -284,7 +290,7 @@ def task2_fun(shares):
             moe_con.set_Kp(Kp)
             moe_con.set_setpoint(setpoint)
                 
-            time_interval = 250 # 0.25 second stay-within-range time
+            time_interval = 1000 # 1 second stay-within-range time
             first_time = 1
                 
             while True:
