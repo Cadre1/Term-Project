@@ -241,12 +241,23 @@ def task2_fun(shares):
             else:
                 if shoot:
                 # EDIT: SET SERVO POSITION TO SHOOT
-                    shoot = 0
                     refire -= 1
+                    # Waits 0.1 second for the stopping phase
+                    time_interval = 100 # 0.1 second overall run time
+                    start_time = utime.ticks_ms()
+                    end_time = utime.ticks_add(start_time,time_interval)
+                    curr_time = start_time
+                    while utime.ticks_diff(end_time,curr_time) > 0:
+                        if Stop_Flag.get():
+                            state = 5
+                            break
+                        curr_time = utime.ticks_ms()
+                        yield 0
+                    shoot = 0
                 else:
                 # EDIT: SET SERVO POSITION TO ORIGINAL POSITION
                     PC0.low()
-                    if refire > 0:
+                    if refire >= 0:
                         shoot = 1
                         state = 2
         elif state == 5:
