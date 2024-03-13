@@ -15,6 +15,7 @@ import motor_driver
 import encoder_reader
 import mlx_cam
 import motor_control
+import servo
 from machine import Pin, I2C
 
       
@@ -34,6 +35,7 @@ def task1_fun(shares):
             print('state 0 for task 1')
             # Initializes pins and timers
             # EDIT: Add GPIO Pin To Observe Voltage Input
+            
             pinB0 = pyb.ADC(pyb.Pin.board.PB0)
             state = 1
         elif state == 1:
@@ -110,7 +112,7 @@ def task2_fun(shares):
         if state == 0:
             print('state 0 for task 2')
             # Initializes pins, timers, and I2C for the Panning Motor and Encoder, Flywheel GPIO Pin, IR Sensor, and Servo 
-            
+
             # Initializes the GPIO Pin for the flywheel motor MOSFET
             PC0 = pyb.Pin(pyb.Pin.board.PC0, pyb.Pin.OUT_PP)
             PC0.low()
@@ -157,7 +159,9 @@ def task2_fun(shares):
             moe_con = motor_control.MotorControl(Kp, setpoint)
             
             # Initializes the Servo Pins and Timers
-            # EDIT: FINISH WITH SERVO STUFF
+            servo_pin = pyb.Pin(pyb.Pin.board.PA8, pyb.Pin.OUT_PP)
+            s_timer = pyb.Timer(1, prescaler=79, period=19999)
+            my_servo = servo.Servo(pin=servo_pin, timer=s_timer, zero_angle=80)
             
             shoot = 1
             refire = 0 # Number of additional shots
@@ -240,10 +244,12 @@ def task2_fun(shares):
                 state = 5
             else:
                 if shoot:
-                # EDIT: SET SERVO POSITION TO SHOOT
+                    # Move Servo to firing angle of 45 degrees.
+                    my_servo.SetAngle(45)
                     refire -= 1
                     # Waits 0.1 second for the stopping phase
-                    time_interval = 100 # 0.1 second overall run time
+                    time_interval = 200
+                    # 0.2 second overall run time (Changed from 0.1 to 0.2 to match Servo testing results
                     start_time = utime.ticks_ms()
                     end_time = utime.ticks_add(start_time,time_interval)
                     curr_time = start_time
@@ -255,7 +261,7 @@ def task2_fun(shares):
                         yield 0
                     shoot = 0
                 else:
-                # EDIT: SET SERVO POSITION TO ORIGINAL POSITION
+                    my_servo.SetAngle(80)
                     PC0.low()
                     if refire >= 0:
                         shoot = 1
@@ -265,7 +271,7 @@ def task2_fun(shares):
             # Stops all motor motion and resets servo
             PC0.low()
             moe.set_duty_cycle(0)
-            # EDIT: SET SERVO POSITION TO ORIGINAL POSITION/disables the servo
+            my_servo.SetAngle(80)
             if Return_Flag.get():
                 des_pos = 0
                 state = 6

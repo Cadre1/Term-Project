@@ -60,18 +60,12 @@ class Servo:
 if __name__ == "__main__":
     servo_pin = pyb.Pin(pyb.Pin.board.PA8, pyb.Pin.OUT_PP)
     s_timer = pyb.Timer(1, prescaler=79, period=19999)
-    my_servo = Servo(pin=servo_pin, timer=s_timer, zero_angle=0)
+    my_servo = Servo(pin=servo_pin, timer=s_timer, zero_angle=80)
     try:
-        while True:
-            my_servo.SetAngle(0)
-            utime.sleep(2)
-            my_servo.SetAngle(90)
-            utime.sleep(2)
-            #my_servo.SetDeflection(0)
-            #utime.sleep(2)
-            #my_servo.SetDeflection(90)
-            #utime.sleep(2)
-            #my_servo.SetDeflection(-90)
-            #utime.sleep(2)
+        my_servo.SetAngle(80)
+        utime.sleep(2)
+        my_servo.SetAngle(45)
+        utime.sleep_ms(200)
+        my_servo.SetAngle(80)
     except KeyboardInterrupt:
         print("stopped the code")
