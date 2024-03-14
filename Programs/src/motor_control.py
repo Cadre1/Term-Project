@@ -9,30 +9,48 @@ class MotorControl:
     This class creates a Proportional Gain Controller
     to be used with a motor-encoder system
     """
-    def __init__(self, setpoint, Kp):
+    def __init__(self, setpoint, Kp, Ki, Kd):
         """! 
         Creates a proportional controller by initializing the desired output
         and time lists as well as controller properties 
         @param setpoint The desired output  
         @param Kp The proportional controller gain
         """
-        self.times = []
-        self.positions = []
         self.setpoint = setpoint
         self.Kp = Kp
+        self.Ki = Ki
+        self.Kd = Kd
+        
+        self.prev_error = 0
+        self.integral_error = 0
+        self.prev_time = 0
+        self.first_time = 1
     
     
-    def run(self, measured_output):
+    def run(self, measured_output, delta_t):
         """! 
         This method takes in the measured output of the plant and returns
         the effort out of the controller
         @param measured_output The current measured output of the plant
         @returns The output effort of the proportional controller
         """
-        time = utime.ticks_ms()
-        
+        curr_time = utime.ticks_ms()
         error = self.setpoint - measured_output
-        output = self.Kp*error
+        if self.first_time:
+            derror = 0
+            self.first_time = 0
+        else:
+            derror = (error-self.prev_error)/(delta_t/1000)
+            self.integral_error += error*(delta_t/1000)
+            #derror = (error-self.prev_error)/(curr_time-self.prev_time)
+            #self.integral_error += error*(curr_time-self.prev_time)
+        self.prev_time = curr_time
+        self.prev_error = error
+        
+        prop_output = error*self.Kp
+        int_output = self.integral_error*self.Ki
+        der_output = derror*self.Kd
+        output = prop_output+int_output+der_output
         return output
     
     
@@ -44,22 +62,27 @@ class MotorControl:
         self.setpoint = setpoint
         
         
-    def set_Kp(self, Kp):
+    def set_gain(self, Kp, Ki, Kd):
         """! 
         This method takes in the proportional controller gain and sets it
         @param Kp The proportional controller gain  
         """
         self.Kp = Kp
-        
-        
-    def print_step_response(self, start_time):
-        """! 
-        This method takes in the start time of the system and prints out the
-        measured positions with their respective time relative to the start time
-        @param start_time The starting time of the step response
-        """
-        # Prints out "time, position" in CSV format
-        for i in range(len(self.times)):
-            print(f"{self.times[i]-start_time}, {self.positions[i]}")
+        self.Ki = Ki
+        self.Kd = Kd
+
+if __name__ == "__main__":
     
-        
+    des_pos = 10
+    curr_pos = 0
+    con = MotorControl(0, 0, 0, 0)
+    con.set_setpoint(des_pos)
+    con.set_gain(0.25,0,0)
+    while True:
+        try:
+            output = con.run(curr_pos, 10)
+            curr_pos += output*0.01
+            print(curr_pos)
+            utime.sleep_ms(10)
+        except:
+            break

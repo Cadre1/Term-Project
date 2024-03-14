@@ -25,7 +25,7 @@ def task1_fun(shares):
     @param shares A list holding the three shares, Start_Flag, Stop_Flag, and Return_Flag used by this task
     """
     # Get references to the share and queue which have been passed to this task
-    Start_Flag, Stop_Flag, Return_Flag = shares
+    Start_Flag, Stop_Flag, Return_Flag, Button_Flag = shares
     # Init Yield
     yield 0
     
@@ -35,6 +35,11 @@ def task1_fun(shares):
             print('state 0 for task 1')
             # Initializes pins and timers
             pinB0 = pyb.ADC(pyb.Pin.board.PB0)
+            # Initializes Intertask Flag variables
+            Start_Flag.put(0)
+            Stop_Flag.put(0)
+            Return_Flag.put(0)
+            Button_Flag.put(0)
             state = 1
             print('state 1 for task 1')
         elif state == 1:
@@ -42,6 +47,7 @@ def task1_fun(shares):
             # EDIT: Pass this state if we choose to just use the restart as our start the match trigger
             if (pinB0.read()*3.3/4095) >= 2:
                 state = 2
+                Button_Flag.put(1)
                 print('state 2 for task 1')
             #state = 2
         elif state == 2:
@@ -101,7 +107,7 @@ def task2_fun(shares):
     @param shares A list holding the three shares, Start_Flag, Stop_Flag, and Return_Flag used by this task
     """
     # Get references to the share and queue which have been passed to this task
-    Start_Flag, Stop_Flag, Return_Flag = shares
+    Start_Flag, Stop_Flag, Return_Flag, Button_Flag = shares
     # Init Yield
     yield 0
     
@@ -151,10 +157,12 @@ def task2_fun(shares):
             # Initializes Kp and setpoint
             des_pos = 0
             Kp = 0
+            Ki = 0
+            Kd = 0
             setpoint = 0
             
             # Creates the Motor Controller Object
-            moe_con = motor_control.MotorControl(Kp, setpoint)
+            moe_con = motor_control.MotorControl(setpoint, Kp, Ki, Kd)
             
             # Initializes the Servo Pins and Timers
             servo_pin = pyb.Pin(pyb.Pin.board.PA8, pyb.Pin.OUT_PP)
@@ -162,7 +170,7 @@ def task2_fun(shares):
             my_servo = servo.Servo(pin=servo_pin, timer=s_timer, zero_angle=80)
             
             shoot = 1
-            refire = 3 # Number of additional shots
+            refire = 0 # EDIT: Adjust for the number of ADDITIONAL shots
             state = 1
             print('state 1 for task 2')
         elif state == 1:
@@ -170,12 +178,56 @@ def task2_fun(shares):
             if Start_Flag.get():
                 state = 2
                 print('state 2 for task 2')
+            
+            # Can remove this else and the following while loop if we don't want to move during initial 5 seconds
+            elif Button_Flag.get():  
+                # Sets the setpoint and Kp
+                des_pos = 80000
+                setpoint = des_pos
+                Kp = 0.25
+                Ki = 0
+                Kd = 0
+                moe_con.set_gain(Kp, Ki, Kd)
+                moe_con.set_setpoint(setpoint)
+                    
+                time_interval = 1000 # 1 second (1000ms) stay-within-range time
+                range_interval = 1000 # 1000 count stay-within-range
+                first_time = 1
+                
+                while True:
+                    if Start_Flag.get():
+                        state = 2
+                        print('state 2 for task 2')
+                        break
+                    else:
+                        curr_time = utime.ticks_ms()
+                        pos = enc.read_position()
+                        PWM = moe_con.run(pos, 7)
+                        moe.set_duty_cycle(PWM)
+                        # Checks if we are within the range interval of our desired position and starts the stay-within-range timer
+                        if pos >= (des_pos-range_interval) and pos <= (des_pos+range_interval):
+                            if first_time:
+                                start_time = utime.ticks_ms()
+                                end_time = utime.ticks_add(start_time,time_interval)
+                                curr_time = start_time
+                                first_time = 0
+                            elif utime.ticks_diff(end_time,curr_time) < 0:
+                                first_time = 1
+                                moe.set_duty_cycle(0)
+                                Button_Flag.put(0)
+                                break
+                        else:
+                            first_time = 1
+                    yield 0
         elif state == 2:
             # Determines the position that the turret needs to be at to be centered on the target
             if Stop_Flag.get():
                 state = 5
                 print('state 5 for task 2')
             else:
+                Button_Flag.put(0)
+                # Turns on the flywheel
+                PC1.high()
                 # Keeps trying to get an image until it collects one
                 image = None
                 while not image:
@@ -187,15 +239,23 @@ def task2_fun(shares):
                     yield 0
                 
                 # Processes image to get the centroid of the hottest region, ignoring temperatures less than 90% of the max
-                ignore = 90
+                ignore = [91, 100] # EDIT: Adjust until we get an appropriate/accurate shot (See camera outputs)
                 centered = True
-                x_bar, y_bar = camera.get_centroid(image, ignore, centered)
+                x_bar_centroid, y_bar_centroid = camera.get_centroid(image, ignore, centered)
+                x_bar_hotspot, y_bar_hotspot = camera.get_hotspot(image, centered)
+                
                 
                 # Calculates the encoder position off of the horizontal position
                 count_per_180 = 80000
                 count_per_degree = count_per_180/180
-                horz_angle = 55/32*x_bar
-                print(horz_angle)
+                weight_dist = [70/100, 30/100] # EDIT: Adjust to make the effect of centroid or hotspot more impactful
+                horz_angle_centroid = 55/32*x_bar_centroid
+                horz_angle_hotspot = 55/32*x_bar_hotspot
+                horz_angle = (horz_angle_centroid*weight_dist[0]+horz_angle_hotspot*weight_dist[1])/2
+                print(f'Centroid X: {horz_angle_centroid}')
+                print(f'Hotspot X: {horz_angle_hotspot}')
+                print(f'Average X: {horz_angle}')
+                
                 dcount = horz_angle*count_per_degree
                 des_pos = count_per_180 + dcount
                 state = 3
@@ -211,11 +271,14 @@ def task2_fun(shares):
                 
                 # Sets the setpoint and Kp
                 setpoint = des_pos
-                Kp = 0.25
-                moe_con.set_Kp(Kp)
+                Kp = 0.2 # EDIT: Adjust Kp if there is a lot of slip(?)
+                Ki = 0 # EDIT: You shouldn't need to touch Ki or Kd. 
+                Kd = 0 # TTS isn't that bad and slip is worse
+                moe_con.set_gain(Kp, Ki, Kd)
                 moe_con.set_setpoint(setpoint)
                 
-                time_interval = 1000 # 0.25 second stay-within-range time
+                time_interval = 100 # 0.75 second stay-within-range time
+                range_interval = 2000 # 2000 count stay-within-range
                 first_time = 1
                 
                 while True:
@@ -226,10 +289,10 @@ def task2_fun(shares):
                     else:
                         curr_time = utime.ticks_ms()
                         pos = enc.read_position()
-                        PWM = moe_con.run(pos)
+                        PWM = moe_con.run(pos, 7)
                         moe.set_duty_cycle(PWM)
-                        # Checks if we are within 5000 counts of our desired position and starts the stay-within-range timer
-                        if pos >= (des_pos-5000) and pos <= (des_pos+5000):
+                        # Checks if we are within the range interval of our desired position and starts the stay-within-range timer
+                        if pos >= (des_pos-range_interval) and pos <= (des_pos+range_interval):
                             if first_time:
                                 start_time = utime.ticks_ms()
                                 end_time = utime.ticks_add(start_time,time_interval)
@@ -287,18 +350,21 @@ def task2_fun(shares):
             # Sets the setpoint and Kp
             setpoint = des_pos
             Kp = 0.25
-            moe_con.set_Kp(Kp)
+            Ki = 0
+            Kd = 0
+            moe_con.set_gain(Kp, Ki, Kd)
             moe_con.set_setpoint(setpoint)
                 
             time_interval = 1000 # 1 second stay-within-range time
+            range_interval = 2500 # 2500 count stay-within-range
             first_time = 1
                 
             while True:
                 pos = enc.read_position()
-                PWM = moe_con.run(pos)
+                PWM = moe_con.run(pos, 7)
                 moe.set_duty_cycle(PWM)
-                # Checks if we are within 5000 counts of our desired position and starts the stay-within-range timer
-                if pos >= (des_pos-5000) and pos <= (des_pos+5000):
+                # Checks if we are within the range interval of our desired position and starts the stay-within-range timer
+                if pos >= (des_pos-range_interval) and pos <= (des_pos+range_interval):
                     if first_time:
                         start_time = utime.ticks_ms()
                         end_time = utime.ticks_add(start_time,time_interval)
@@ -327,15 +393,16 @@ if __name__ == "__main__":
     Start_Flag = task_share.Share('h', thread_protect=False, name="Start Flag")
     Stop_Flag = task_share.Share('h', thread_protect=False, name="Stop Flag")
     Return_Flag = task_share.Share('h', thread_protect=False, name="Return Flag")
+    Button_Flag = task_share.Share('h', thread_protect=False, name="Button Flag")
 
     # Create the tasks. If trace is enabled for any task, memory will be
     # allocated for state transition tracing, and the application will run out
     # of memory after a while and quit. Therefore, use tracing only for 
     # debugging and set trace to False when it's not needed
     task1 = cotask.Task(task1_fun, name="Task_1", priority=2, period=20,
-                        profile=True, trace=False, shares=(Start_Flag, Stop_Flag, Return_Flag))
+                        profile=True, trace=False, shares=(Start_Flag, Stop_Flag, Return_Flag, Button_Flag))
     task2 = cotask.Task(task2_fun, name="Task_2", priority=1, period=7,
-                        profile=True, trace=False, shares=(Start_Flag, Stop_Flag, Return_Flag))
+                        profile=True, trace=False, shares=(Start_Flag, Stop_Flag, Return_Flag, Button_Flag))
     cotask.task_list.append(task1)
     cotask.task_list.append(task2)
 

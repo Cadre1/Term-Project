@@ -227,11 +227,11 @@ class MLX_Cam:
     #           for the volume of the highest temperature through some data
     #           parsing and integration
     #  @param   array The array of data to be presented
-    #  @param   ignore A percent integer for the percent of the highest
+    #  @param   ignore A list of two percent integers for the percent of the lowest and highest
     #           temperature pixels to ignore
     #  @param   centered A boolean to determine if we want the centroid
     #           position from the center or from the top left corner
-    def get_centroid(self, array, ignore = 90, centered = True):
+    def get_centroid(self, array, ignore = [90, 100], centered = True):
         Tx = 0
         Ty = 0
         T = 0
@@ -246,7 +246,7 @@ class MLX_Cam:
                 
                 # Ignoring values at less than 90% the max (difference)
                 # Otherwise add to the new T*c and T
-                if pix <= ignore:
+                if pix < ignore[0] and pix < ignore[1]:
                     pass
                 else:
                     # Calculating T*c and T for each pixel
@@ -263,7 +263,36 @@ class MLX_Cam:
             x_bar = x_bar - self._width/2
             y_bar = -y_bar + self._height/2
         return (x_bar, y_bar)
-
+       
+       
+    ## @brief   Find the centroid of the highest temperature region.
+    #  @details This function finds the x and y positions of the centroid
+    #           for the volume of the highest temperature through some data
+    #           parsing and integration
+    #  @param   array The array of data to be presented
+    #  @param   ignore A percent integer for the percent of the highest
+    #           temperature pixels to ignore
+    #  @param   centered A boolean to determine if we want the centroid
+    #           position from the center or from the top left corner
+    def get_hotspot(self, array, centered = True):
+        Tmax = max(array)
+        x_max = 0
+        y_max = 0
+        
+        # Determining the position of Tmax row and column 
+        for row in range(self._height):
+            for col in range(self._width):
+                if int(array[row * self._width + (self._width - col - 1)]) == Tmax:
+                    # Hotspot position from the top left (if IR is oriented with text upwards)
+                    x_max = col
+                    y_max = row
+        
+        # If we want the hotspot position from the center of the screen
+        if centered:
+            x_max = x_max - self._width/2
+            y_max = -y_max + self._height/2
+        return (x_max, y_max)
+    
 
     ## @brief   Show a data array from the IR image as ASCII art.
     #  @details Each character is repeated twice so the image isn't squished
@@ -338,10 +367,10 @@ def test_MLX_cam():
 
             print(f" {time.ticks_diff(time.ticks_ms(), begintime)} ms")
             
-            ignore = 90
+            ignore = [95, 100]
             centered = True
             x_bar, y_bar = camera.get_centroid(image, ignore, centered)
-    
+            x_max, y_max = camera.get_hotspot(image, centered)
             # Can show image.v_ir, image.alpha, or image.buf; image.v_ir best?
             # Display pixellated grayscale or numbers in CSV format; the CSV
             # could also be written to a file. Spreadsheets, Matlab(tm), or
@@ -361,8 +390,10 @@ def test_MLX_cam():
             gc.collect()
             print(f"Memory: {gc.mem_free()} B free")
             
-            print(f'X-position is: {x_bar}')
-            print(f'Y-position is: {y_bar}')
+            print(f'Centroid X-position is: {x_bar}')
+            print(f'Centroid Y-position is: {y_bar}')
+            print(f'Hotspot X-position is: {x_max}')
+            print(f'Hotspot Y-position is: {y_max}')
             
             time.sleep_ms(3141)
 
