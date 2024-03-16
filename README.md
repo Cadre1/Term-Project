@@ -23,4 +23,7 @@ Despite its overall success, we encountered challenges primarily related to mech
 For those seeking to build upon our work, we recommend prioritizing careful sizing and compatibility checks of mechanical components to prevent issues such as gear slipping. Additionally, implementing regular maintenance checks and calibration procedures for sensors and actuators is essential for consistent performance. Exploring alternative materials or manufacturing methods for gears could improve durability and reliability. Furthermore, integrating additional sensors or advanced algorithms for target tracking could enhance the system's accuracy and adaptability in dynamic environments. Overall, these recommendations aim to address challenges encountered during our project and offer avenues for further refinement and improvement in future iterations.
 
 # References
-The manual and the term project instructios, the nucleo information and motor information?
+The manual and the term project instructions, the nucleo information and motor information?
+
+Helpful Code for ME 405 - https://github.com/spluttflob/ME405-Support
+The STM32L476 Nucleo User Manual - https://www.st.com/resource/en/user_manual/um1724-stm32-nucleo64-boards-mb1136-stmicroelectronics.pdf
