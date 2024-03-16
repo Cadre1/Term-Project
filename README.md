@@ -26,4 +26,5 @@ For those seeking to build upon our work, we recommend prioritizing careful sizi
 The manual and the term project instructions, the nucleo information and motor information?
 
 Helpful Code for ME 405 - https://github.com/spluttflob/ME405-Support
+
 The STM32L476 Nucleo User Manual - https://www.st.com/resource/en/user_manual/um1724-stm32-nucleo64-boards-mb1136-stmicroelectronics.pdf
