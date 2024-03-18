@@ -40,3 +40,5 @@ The STM32L476 Nucleo User Manual - https://www.st.com/resource/en/user_manual/um
 The MLX90640 Thermal Camera Datasheet - https://www.melexis.com/en/documents/documentation/datasheets/datasheet-mlx90640
 
 The ___ Servo Motor Datasheet - <INSERT DATASHEET>
+
+The Project in Action - https://youtu.be/ceA77QBQG_Y?si=SO-bap_1HtrvdEz_
