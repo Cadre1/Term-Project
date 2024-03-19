@@ -1,12 +1,13 @@
 """!
 @file main.py
     This program manages and allows two cotasks, task1_fun (Timing) and task2_fun (Shooting), to be run without blocking each other upon the microcontroller's reset.
-    * Each of these tasks' finite state machines can be found in the README on Github.
     The Timing task initializes a pin to take an input from a button in which it then begins to track each of the required timers for the shootout.
     Each section of the shootout will have its corresponding flag set when each timer ends.
     The Shooting task initializes the pin controlling the MOSFET output to the Nerf gun flywheel, the I2C channel for the thermal camera, the pins and timers for the panning motor and encoder, and the pin, timer, and PID controller for the servo motor.
     This task will then manage the motor control for initial rotation using the motor driver, encoder, and PID controller, the centroid/hotspot detection using the thermal camera, the aiming at the determined centroid/hotspot, firing using the pin-to-flywheel circuit and servo motor, and rotation back to its starting point.
     During each of the shootout's sections, the states will be watching for changes in the timer's flag changes and change modes correspondingly. 
+    Notes:
+    * Each of these tasks' finite state machines can be found in the README on Github.
     * Tuning of controller gains, thermal readings, and timings may be adjusted per the requirements of operation by searching for "EDIT:" comments.
 """
 

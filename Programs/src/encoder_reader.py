@@ -9,7 +9,7 @@ import math
 
 class Encoder:
     """! 
-    This class implements the encoder in the motor for an ME405 kit. 
+    This class sets up the encoder contained in a DC motor. 
     """
     def __init__(self, in6pin, in7pin, timer, CPR=256):
         """! 

@@ -7,7 +7,7 @@ import utime
 
 class MotorDriver:
     """! 
-    This class implements a motor driver for an ME405 kit. 
+    This class sets up a motor driver for a DC motor. 
     """
     def __init__(self, en_pin, in1pin, in2pin, timer):
         """! 

@@ -26,12 +26,14 @@ from mlx90640.calibration import NUM_ROWS, NUM_COLS, IMAGE_SIZE, TEMP_K
 from mlx90640.image import ChessPattern, InterleavedPattern
 
 
-## @brief   Class which wraps an MLX90640 thermal infrared camera driver to
-#           make it easier to grab and use an image. 
-#  @details This image is in "raw" mode, meaning it has not been calibrated
-#           (which takes lots of time and memory) and only gives relative IR
-#           emission seen by pixels, not estimates of the temperatures.
 class MLX_Cam:
+    """!
+    @brief   Class which wraps an MLX90640 thermal infrared camera driver to
+             make it easier to grab and use an image. 
+    @details This image is in "raw" mode, meaning it has not been calibrated
+             (which takes lots of time and memory) and only gives relative IR
+             emission seen by pixels, not estimates of the temperatures.
+    """
     def __init__(self, i2c, address=0x33, pattern=ChessPattern,
                  width=NUM_COLS, height=NUM_ROWS):
         """!

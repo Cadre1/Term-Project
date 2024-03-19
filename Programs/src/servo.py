@@ -7,6 +7,9 @@ import utime
 import math
 
 class Servo:
+    """! 
+    This class sets up a servo motor with angle control. 
+    """
     def __init__(self, pin, timer, zero_angle):
         """! 
         Creates a servo motor by initializing GPIO pins as PWM outputs and turning off the motor for safety. 
