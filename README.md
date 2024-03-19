@@ -11,8 +11,8 @@ Our project introduces an autonomous turret system designed to enhance target ac
 ![20240315_135635](https://github.com/Cadre1/Term-Project/assets/55156855/13e64ac5-0520-4c69-b7a5-7084ba4032b9)
 ![20240315_135642](https://github.com/Cadre1/Term-Project/assets/55156855/f875bbc5-17c6-4bc6-b902-88512c888c7d)
 
-" Ned would you be able to put a screen shot of the CAD here"
 Electronic Schematic:
+![image](https://github.com/Cadre1/Term-Project/assets/156386309/85fd8def-7f5e-48b9-8cd7-d34d9cd2ef06)
 
 
 
