@@ -12,6 +12,8 @@ Our project introduces an autonomous turret system designed to enhance target ac
 ![20240315_135642](https://github.com/Cadre1/Term-Project/assets/55156855/f875bbc5-17c6-4bc6-b902-88512c888c7d)
 
 " Ned would you be able to put a screen shot of the CAD here"
+Electronic Schematic:
+
 
 
 # Software Design
