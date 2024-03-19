@@ -1,8 +1,7 @@
 """!
-@file lab4.py
-Runs a pair of controlled motor responses from a step input and plots the results.
-This program allows for the user to input a pair of desired angular distances and Kps.
-With these values, the microcontroller will produce two step responses for the position of the motor using an encoder and proportional controller.
+@file term_project.py
+This program generates a simple GUI with a button to restart a connected microcontroller.
+* To be ran on a PC connected to a microcontroller with the corresponding main.py program uploaded to it, but main.py can just be ran on its own.
 
 This file is based loosely on an example found at
 https://matplotlib.org/stable/gallery/user_interfaces/embedding_in_tk_sgskip.html
@@ -19,10 +18,9 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,
                                                NavigationToolbar2Tk)
 
-
 def restart_device():
     """!
-    
+    This function ensures that there is a COM device connected and writes keystrokes to restart the connected microcontroller 
     """
     # States COM device (May vary with different computers)
     com_port = 'COM5'
@@ -44,15 +42,8 @@ def restart_device():
 
 def tk_matplot(restart_device):
     """!
-    Create a TK window with one embedded Matplotlib plot.
-    This function makes the window, displays it, and runs the user interface
-    until the user closes the window. The plot function, which must have been
-    supplied by the user, should draw the plot on the supplied plot axes and
-    call the draw() function belonging to the plot canvas to show the plot. 
-    @param plot_function The function which, when run, creates a plot
-    @param xlabel The label for the plot's horizontal axis
-    @param ylabel The label for the plot's vertical axis
-    @param title A title for the plot; it shows up in window title bar
+    Creates a TK window with a button used to restart the microcontroller
+    @param restart_device The function which, when run, restarts the microcontroller
     """
     # Create the main program window and give it a title
     tk_root = tkinter.Tk()

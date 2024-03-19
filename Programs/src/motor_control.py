@@ -1,12 +1,12 @@
 """! @file motor_control.py
 This program creates the class "MotorControl" which initializes the required values for a proportional controller.
-This class also contains the methods to calculate the required effort off of an input position, to set the setpoint and proportional controller gain, and to print out the step response data.
+This class also contains the methods to calculate the required effort off of an input position, to set the setpoint, and to set PID controller gains.
 """
 import utime
 
 class MotorControl:
     """! 
-    This class creates a Proportional Gain Controller
+    This class creates a Proportional, Integral, Derivative Gain Controller
     to be used with a motor-encoder system
     """
     def __init__(self, setpoint, Kp, Ki, Kd):
@@ -15,6 +15,8 @@ class MotorControl:
         and time lists as well as controller properties 
         @param setpoint The desired output  
         @param Kp The proportional controller gain
+        @param Ki The integral controller gain
+        @param Kd The derivative controller gain
         """
         self.setpoint = setpoint
         self.Kp = Kp
@@ -64,12 +66,15 @@ class MotorControl:
         
     def set_gain(self, Kp, Ki, Kd):
         """! 
-        This method takes in the proportional controller gain and sets it
-        @param Kp The proportional controller gain  
+        This method takes in the desired controller gains and sets them
+        @param Kp The proportional controller gain
+        @param Ki The integral controller gain
+        @param Kd The derivative controller gain
         """
         self.Kp = Kp
         self.Ki = Ki
         self.Kd = Kd
+
 
 if __name__ == "__main__":
     

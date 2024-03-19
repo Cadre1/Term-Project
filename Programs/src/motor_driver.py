@@ -93,35 +93,3 @@ if __name__ == "__main__":
     moe = MotorDriver(a_pin, in1pin, in2pin, a_timer)
     moe.set_duty_cycle(-42)
 
-
-#     [PWM_tim1, PWM_tim2] = motor_setup()
-#     time_range = 5
-#     interval = 0.05
-#     PW1 = 0
-#     PW2 = 0
-#     
-#     try:
-#         while True:
-#             for value in range(5/interval):
-#                 PW1 += 100/(5/interval)
-#                 PW2 += 0/(5/interval)
-#                 set_motor(PWM_tim1, PWM_tim2, PW1, PW2)
-#                 utime.sleep(interval)
-#                 print(PW1, ', ', PW2)
-#             PW1 = 0
-#             PW2 = 0
-#             set_motor(PWM_tim1, PWM_tim2, PW1, PW2)
-#             
-#             for value in range(5/interval):
-#                 PW1 += 0/(5/interval)
-#                 PW2 += 100/(5/interval)
-#                 set_motor(PWM_tim1, PWM_tim2, PW1, PW2)
-#                 utime.sleep(interval)
-#                 print(PW1, ', ', PW2)
-#             PW1 = 0
-#             PW2 = 0
-#             set_motor(PWM_tim1, PWM_tim2, PW1, PW2)
-#     except Exception as e:
-#         print(e)
-#         print("stopped")
-#     

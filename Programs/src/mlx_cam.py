@@ -1,26 +1,22 @@
-## @file mlx_cam.py
-# 
-#  RAW VERSION
-#  This version uses a stripped down MLX90640 driver which produces only raw
-#  data, not calibrated data, in order to save memory.
-# 
-#  This file contains a wrapper that facilitates the use of a Melexis MLX90640
-#  thermal infrared camera for general use. The wrapper contains a class MLX_Cam
-#  whose use is greatly simplified in comparison to that of the base class,
-#  @c class @c MLX90640, by mwerezak, who has a cool fox avatar, at
-#  @c https://github.com/mwerezak/micropython-mlx90640
-# 
-#  To use this code, upload the directory @c mlx90640 from mwerezak with all
-#  its contents to the root directory of your MicroPython device, then copy
-#  this file to the root directory of the MicroPython device.
-# 
-#  There's some test code at the bottom of this file which serves as a
-#  beginning example.
-# 
-#  @author mwerezak Original files, Summer 2022
-#  @author JR Ridgely Added simplified wrapper class @c MLX_Cam, January 2023
-#  @copyright (c) 2022-2023 by the authors and released under the GNU Public
-#      License, version 3.
+"""! @file mlx_cam.py
+This program creates the class "MLX_Cam" which initializes the I2C connections required for the thermal camera to be operated.
+In addition to the raw version of this program, two functions, get_centroid and get_hotspot have been added to determine the location of the centroid of the temperatures and maximum temperatures.
+
+RAW VERSION
+This version uses a stripped down MLX90640 driver which produces only raw
+data, not calibrated data, in order to save memory.
+
+This file contains a wrapper that facilitates the use of a Melexis MLX90640
+thermal infrared camera for general use. The wrapper contains a class MLX_Cam
+whose use is greatly simplified in comparison to that of the base class,
+@c class @c MLX90640, by mwerezak, who has a cool fox avatar, at
+@c https://github.com/mwerezak/micropython-mlx90640
+
+@author mwerezak Original files, Summer 2022
+@author JR Ridgely Added simplified wrapper class @c MLX_Cam, January 2023
+@copyright (c) 2022-2023 by the authors and released under the GNU Public
+    License, version 3.
+"""
 
 import utime as time
 import array as np
@@ -36,17 +32,18 @@ from mlx90640.image import ChessPattern, InterleavedPattern
 #           (which takes lots of time and memory) and only gives relative IR
 #           emission seen by pixels, not estimates of the temperatures.
 class MLX_Cam:
-
-    ## @brief   Set up an MLX90640 camera.
-    #  @param   i2c An I2C bus which has been set up to talk to the camera;
-    #           this must be a bus object which has already been set up
-    #  @param   address The address of the camera on the I2C bus (default 0x33)
-    #  @param   pattern The way frames are interleaved, as we read only half
-    #           the pixels at a time (default ChessPattern)
-    #  @param   width The width of the image in pixels; leave it at default
-    #  @param   height The height of the image in pixels; leave it at default
     def __init__(self, i2c, address=0x33, pattern=ChessPattern,
                  width=NUM_COLS, height=NUM_ROWS):
+        """!
+        @brief   Set up an MLX90640 camera.
+        @param   i2c An I2C bus which has been set up to talk to the camera;
+                 this must be a bus object which has already been set up
+        @param   address The address of the camera on the I2C bus (default 0x33)
+        @param   pattern The way frames are interleaved, as we read only half
+                 the pixels at a time (default ChessPattern)
+        @param   width The width of the image in pixels; leave it at default
+        @param   height The height of the image in pixels; leave it at default
+        """
 
         ## The I2C bus to which the camera is attached
         self._i2c = i2c
@@ -70,39 +67,40 @@ class MLX_Cam:
 
         ## A local reference to the image object within the camera driver
         self._image = self._camera.raw
-
-
-    ## @brief   Show low-resolution camera data as shaded pixels on a text
-    #           screen.
-    #  @details The data is printed as a set of characters in columns for the
-    #           number of rows in the camera's image size. This function is
-    #           intended for testing an MLX90640 thermal infrared sensor.
-    #  
-    #           A pair of extended ACSII filled rectangles is used by default
-    #           to show each pixel so that the aspect ratio of the display on
-    #           screens isn't too smushed. Each pixel is colored using ANSI
-    #           terminal escape codes which work in only some programs such as
-    #           PuTTY.  If shown in simpler terminal programs such as the one
-    #           used in Thonny, the display just shows a bunch of pixel
-    #           symbols with no difference in shading (boring).
-    # 
-    #           A simple auto-brightness scaling is done, setting the lowest
-    #           brightness of a filled block to 0 and the highest to 255. If
-    #           there are bad pixels, this can reduce contrast in the rest of
-    #           the image.
-    # 
-    #           After the printing is done, character color is reset to a
-    #           default of medium-brightness green, or something else if
-    #           chosen.
-    #  @param   array An array of (self._width * self._height) pixel values
-    #  @param   pixel Text which is shown for each pixel, default being a pair
-    #           of extended-ASCII blocks (code 219)
-    #  @param   textcolor The color to which printed text is reset when the
-    #           image has been finished, as a string "<r>;<g>;<b>" with each
-    #           letter representing the intensity of red, green, and blue from
-    #           0 to 255
+        
+        
     def ascii_image(self, array, pixel="██", textcolor="0;180;0"):
-
+        """!
+        @brief   Show low-resolution camera data as shaded pixels on a text
+                 screen.
+        @details The data is printed as a set of characters in columns for the
+                 number of rows in the camera's image size. This function is
+                 intended for testing an MLX90640 thermal infrared sensor.
+      
+                 A pair of extended ACSII filled rectangles is used by default
+                 to show each pixel so that the aspect ratio of the display on
+                 screens isn't too smushed. Each pixel is colored using ANSI
+                 terminal escape codes which work in only some programs such as
+                 PuTTY.  If shown in simpler terminal programs such as the one
+                 used in Thonny, the display just shows a bunch of pixel
+                 symbols with no difference in shading (boring).
+     
+                 A simple auto-brightness scaling is done, setting the lowest
+                 brightness of a filled block to 0 and the highest to 255. If
+                 there are bad pixels, this can reduce contrast in the rest of
+                 the image.
+     
+                 After the printing is done, character color is reset to a
+                 default of medium-brightness green, or something else if
+                 chosen.
+        @param   array An array of (self._width * self._height) pixel values
+        @param   pixel Text which is shown for each pixel, default being a pair
+                 of extended-ASCII blocks (code 219)
+        @param   textcolor The color to which printed text is reset when the
+                 image has been finished, as a string "<r>;<g>;<b>" with each
+                 letter representing the intensity of red, green, and blue from
+                 0 to 255
+        """
         minny = min(array)
         scale = 255.0 / (max(array) - minny)
         for row in range(self._height):
@@ -115,15 +113,14 @@ class MLX_Cam:
 
     ## A "standard" set of characters of different densities to make ASCII art
     asc = " -.:=+*#%@"
-
-
-    ## @brief   Show a data array from the IR image as ASCII art.
-    #  @details Each character is repeated twice so the image isn't squished
-    #           laterally. A code of "><" indicates an error, probably caused
-    #           by a bad pixel in the camera. 
-    #  @param   array The array to be shown, probably @c image.v_ir
     def ascii_art(self, array):
-
+        """!
+        @brief   Show a data array from the IR image as ASCII art.
+        @details Each character is repeated twice so the image isn't squished
+                 laterally. A code of "><" indicates an error, probably caused
+                 by a bad pixel in the camera. 
+        @param   array The array to be shown, probably @c image.v_ir
+        """
         scale = len(MLX_Cam.asc) / (max(array) - min(array))
         offset = -min(array)
         for row in range(self._height):
@@ -140,15 +137,16 @@ class MLX_Cam:
         return
 
 
-    ## @brief   Generate a string containing image data in CSV format.
-    #  @details This function generates a set of lines, each having one row of
-    #           image data in Comma Separated Variable format. The lines can
-    #           be printed or saved to a file using a @c for loop.
-    #  @param   array The array of data to be presented
-    #  @param   limits A 2-iterable containing the maximum and minimum values
-    #           to which the data should be scaled, or @c None for no scaling
     def get_csv(self, array, limits=None):
-
+        """!
+        @brief   Generate a string containing image data in CSV format.
+        @details This function generates a set of lines, each having one row of
+                 image data in Comma Separated Variable format. The lines can
+                 be printed or saved to a file using a @c for loop.
+        @param   array The array of data to be presented
+        @param   limits A 2-iterable containing the maximum and minimum values
+                 to which the data should be scaled, or @c None for no scaling
+        """
         if limits and len(limits) == 2:
             scale = (limits[1] - limits[0]) / (max(array) - min(array))
             offset = limits[0] - min(array)
@@ -167,17 +165,18 @@ class MLX_Cam:
         return
 
 
-    ## @brief   Get one image from a MLX90640 camera, @b blocking other tasks
-    #           from running until the image has been received.
-    #  @details Grab one image from the given camera and return it. Both
-    #           subframes (the odd checkerboard portions of the image) are
-    #           grabbed and combined (maybe; this is the raw version, so the
-    #           combination is sketchy and not fully tested). It is assumed
-    #           that the camera is in the ChessPattern (default) mode as it
-    #           probably should be.
-    #  @returns A reference to the image object we've just filled with data
     def get_image(self):
-
+        """!
+        @brief   Get one image from a MLX90640 camera, @b blocking other tasks
+                 from running until the image has been received.
+        @details Grab one image from the given camera and return it. Both
+                 subframes (the odd checkerboard portions of the image) are
+                 grabbed and combined (maybe; this is the raw version, so the
+                 combination is sketchy and not fully tested). It is assumed
+                 that the camera is in the ChessPattern (default) mode as it
+                 probably should be.
+        @returns A reference to the image object we've just filled with data
+        """
         for subpage in (0, 1):
             while not self._camera.has_data:
                 time.sleep_ms(50)
@@ -186,22 +185,22 @@ class MLX_Cam:
         return image
 
 
-    ## @brief   Get an image from an MLX90640 camera in a non-blocking way.
-    #  @details This function is to be called repeatedly; it will return @c None
-    #           until a complete image has been retrieved (this takes around a
-    #           quarter to half second) and will then return the image.
-    #
-    #      @b Example: This code would be inside a task function which yields 
-    #      repeatedly as long as there isn't a complete image available.
-    #      @code
-    #      image = None
-    #      while not image:
-    #          image = camera.get_image_nonblocking()
-    #          yield(state)
-    #      @endcode
-    #
     def get_image_nonblocking(self):
+        """!
+        @brief   Get an image from an MLX90640 camera in a non-blocking way.
+        @details This function is to be called repeatedly; it will return @c None
+                 until a complete image has been retrieved (this takes around a
+                 quarter to half second) and will then return the image.
 
+            @b Example: This code would be inside a task function which yields 
+            repeatedly as long as there isn't a complete image available.
+            @code
+            image = None
+            while not image:
+                image = camera.get_image_nonblocking()
+                yield(state)
+            @endcode
+        """
         # If this is the first recent call, begin the process
         if not self._getting_image:
             self._subpage = 0
@@ -222,29 +221,30 @@ class MLX_Cam:
             self._getting_image = False
             return image
         
-    ## @brief   Find the centroid of the highest temperature region.
-    #  @details This function finds the x and y positions of the centroid
-    #           for the volume of the highest temperature through some data
-    #           parsing and integration
-    #  @param   array The array of data to be presented
-    #  @param   ignore A list of two percent integers for the percent of the lowest and highest
-    #           temperature pixels to ignore
-    #  @param   centered A boolean to determine if we want the centroid
-    #           position from the center or from the top left corner
+        
     def get_centroid(self, array, ignore = [90, 100], centered = True):
+        """!
+        @brief   Finds the centroid of the highest temperature region.
+        @details This function finds the x and y positions of the centroid
+                 for the volume of the highest temperature through some data
+                 parsing and integration of temperature and their distances from the side.
+        @param   array The array of data to be presented
+        @param   ignore A list of two percent integers for the percent of the lowest and highest
+                 temperature pixels to ignore
+        @param   centered A boolean to determine if we want the centroid
+                 position given from the center or from the top left corner
+        """
         Tx = 0
         Ty = 0
         T = 0
         offset = -min(array)
         scale = 100 / (max(array) - min(array))
-        
         # Centroid image processing 
         for row in range(self._height):
             for col in range(self._width):
                 pix = int((array[row * self._width + (self._width - col - 1)]
                           + offset) * scale)
-                
-                # Ignoring values at less than 90% the max (difference)
+                # Ignoring values outside of the ignore percentages
                 # Otherwise add to the new T*c and T
                 if pix < ignore[0] and pix < ignore[1]:
                     pass
@@ -253,11 +253,9 @@ class MLX_Cam:
                     Tx = Tx + pix*col
                     Ty = Ty + pix*row
                     T = T + pix
-        
         # Centroid position from the top left (if IR is oriented with text upwards)
         x_bar = Tx/T
         y_bar = Ty/T
-        
         # If we want the centroid position from the center of the screen
         if centered:
             x_bar = x_bar - self._width/2
@@ -265,20 +263,18 @@ class MLX_Cam:
         return (x_bar, y_bar)
        
        
-    ## @brief   Find the centroid of the highest temperature region.
-    #  @details This function finds the x and y positions of the centroid
-    #           for the volume of the highest temperature through some data
-    #           parsing and integration
-    #  @param   array The array of data to be presented
-    #  @param   ignore A percent integer for the percent of the highest
-    #           temperature pixels to ignore
-    #  @param   centered A boolean to determine if we want the centroid
-    #           position from the center or from the top left corner
     def get_hotspot(self, array, centered = True):
+        """!
+        @brief   Finds the hotspot/position of the highest temperature.
+        @details This function finds the x and y positions of the hottest spot
+                 on the thermal camera.
+        @param   array The array of data to be presented
+        @param   centered A boolean to determine if we want the centroid
+                 position from the center or from the top left corner
+        """
         Tmax = max(array)
         x_max = 0
         y_max = 0
-        
         # Determining the position of Tmax row and column 
         for row in range(self._height):
             for col in range(self._width):
@@ -286,7 +282,6 @@ class MLX_Cam:
                     # Hotspot position from the top left (if IR is oriented with text upwards)
                     x_max = col
                     y_max = row
-        
         # If we want the hotspot position from the center of the screen
         if centered:
             x_max = x_max - self._width/2
@@ -294,12 +289,14 @@ class MLX_Cam:
         return (x_max, y_max)
     
 
-    ## @brief   Show a data array from the IR image as ASCII art.
-    #  @details Each character is repeated twice so the image isn't squished
-    #           laterally. A code of "><" indicates an error, probably caused
-    #           by a bad pixel in the camera. 
-    #  @param   array The array to be shown, probably @c image.v_ir
     def show_hotspot(self, array):
+        """!
+        @brief   Shows a data array from the IR image as ASCII art, but only includes the hotspot.
+        @details Each character is repeated twice so the image isn't squished
+                 laterally. A code of "><" indicates an error, probably caused
+                 by a bad pixel in the camera. 
+        @param   array The array to be shown, probably @c image.v_ir
+        """
         scale = len(MLX_Cam.asc) / (max(array) - min(array))
         offset = -min(array)
         for row in range(self._height):
@@ -316,12 +313,13 @@ class MLX_Cam:
         return
 
 
-## This test function sets up the sensor, then grabs and shows an image in a
-#  terminal every few seconds. By default it shows ASCII art, but it can be
-#  set to show better looking grayscale images in some terminal programs such
-#  as PuTTY. Unfortunately Thonny's terminal won't show the nice grayscale. 
 def test_MLX_cam():
-
+    """!
+    This test function sets up the sensor, then grabs and shows an image in a
+    terminal every few seconds. By default it shows ASCII art, but it can be
+    set to show better looking grayscale images in some terminal programs such
+    as PuTTY. Unfortunately Thonny's terminal won't show the nice grayscale.
+    """
     import gc
 
     # The following import is only used to check if we have an STM32 board such
