@@ -15,7 +15,7 @@ Our project introduces an autonomous turret system designed to enhance target ac
 
 # Software Design
 ![image](https://github.com/Cadre1/Term-Project/assets/55156855/35797bbd-3ab6-4ab8-95d5-6899b830bee7)
-![image](https://github.com/Cadre1/Term-Project/assets/55156855/fc85bea1-d983-4ec4-a2fc-dfd2b9a3374c)
+![image](https://github.com/Cadre1/Term-Project/assets/55156855/cc1501a2-59ac-47d4-a599-750216bdc687)
 
 # Results
 Our system underwent rigorous testing on the designated battle table, which spanned 8 feet in length. During these tests, we evaluated its performance in various scenarios by setting up targets at different distances and heat levels. The system consistently demonstrated accurate target acquisition and aiming, proving its reliability under simulated battle conditions. With proper calibration of the IR sensor and a functional Nerf gun, the turret successfully located and fired at targets with precision, showcasing its effectiveness in autonomous operation.
