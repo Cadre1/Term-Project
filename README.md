@@ -24,7 +24,7 @@ Our system underwent rigorous testing on the designated battle table, which span
 # Challenges and Lessons Learned
 Despite its overall success, we encountered challenges primarily related to mechanical components, particularly the undersized 3D printed gear teeth. This issue resulted in occasional slipping and improper meshing of gears, necessitating careful adjustments to ensure smooth turret rotation. Additionally, maintaining proper calibration of the IR sensor and addressing potential jams in the Nerf gun were critical for optimal performance. From these challenges, we learned the importance of meticulous component sizing and compatibility checks, as well as the significance of thorough calibration procedures for sensor-based systems.
 
-# Reccomendations
+# Recomendations
 For those seeking to build upon our work, we recommend prioritizing careful sizing and compatibility checks of mechanical components to prevent issues such as gear slipping. Additionally, implementing regular maintenance checks and calibration procedures for sensors and actuators is essential for consistent performance. Exploring alternative materials or manufacturing methods for gears could improve durability and reliability. Furthermore, integrating additional sensors or advanced algorithms for target tracking could enhance the system's accuracy and adaptability in dynamic environments. Overall, these recommendations aim to address challenges encountered during our project and offer avenues for further refinement and improvement in future iterations.
 
 # References
