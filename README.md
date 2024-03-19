@@ -1,6 +1,6 @@
 # Term Project
  Group 18's Term Project
-Christopher Ng, Dylan Featherson, Edward Eyre
+ Christopher Ng, Dylan Featherson, Edward Eyre
 
 
 # Introduction
