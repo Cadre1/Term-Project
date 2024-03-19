@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.10.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Nerf Gun Turret: src/motor_driver.py File Reference</title>
+<title>Automated Nerf Gun Turret: src/motor_control.py File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -27,9 +27,9 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Nerf Gun Turret<span id="projectnumber">&#160;0.1.0</span>
+   <div id="projectname">Automated Nerf Gun Turret
    </div>
-   <div id="projectbrief">Term Project for ME 405</div>
+   <div id="projectbrief">ME 405 Term Project</div>
   </td>
  </tr>
  </tbody>
@@ -66,7 +66,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('motor__driver_8py.html',''); initResizable(); });
+$(function(){initNavTree('motor__control_8py.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -95,46 +95,43 @@ $(function(){initNavTree('motor__driver_8py.html',''); initResizable(); });
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#var-members">Variables</a>  </div>
-  <div class="headertitle"><div class="title">motor_driver.py File Reference</div></div>
+  <div class="headertitle"><div class="title">motor_control.py File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This program creates the class "MotorDriver" which initializes the GPIO pins as PWM outputs for one motor.  
+<p>This program creates the class "MotorControl" which initializes the required values for a proportional controller.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmotor__driver_1_1_motor_driver.html">motor_driver.MotorDriver</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class sets up a motor driver for a DC motor.  <a href="classmotor__driver_1_1_motor_driver.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmotor__control_1_1_motor_control.html">motor_control.MotorControl</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class creates a Proportional, Integral, Derivative Gain Controller to be used with a motor-encoder system.  <a href="classmotor__control_1_1_motor_control.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:ab2acfc1bb964f366611468915240b154" id="r_ab2acfc1bb964f366611468915240b154"><td class="memItemLeft" align="right" valign="top"><a id="ab2acfc1bb964f366611468915240b154" name="ab2acfc1bb964f366611468915240b154"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>motor_driver.a_pin</b> = pyb.Pin(pyb.Pin.board.PA10, pyb.Pin.OUT_PP)</td></tr>
-<tr class="separator:ab2acfc1bb964f366611468915240b154"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0e6c319a6a8d9b64e4d60fe0a0be1a40" id="r_a0e6c319a6a8d9b64e4d60fe0a0be1a40"><td class="memItemLeft" align="right" valign="top"><a id="a0e6c319a6a8d9b64e4d60fe0a0be1a40" name="a0e6c319a6a8d9b64e4d60fe0a0be1a40"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>motor_driver.in1pin</b> = pyb.Pin(pyb.Pin.board.PB4, pyb.Pin.OUT_PP)</td></tr>
-<tr class="separator:a0e6c319a6a8d9b64e4d60fe0a0be1a40"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95a275252486f3166bdd13d329b7b74e" id="r_a95a275252486f3166bdd13d329b7b74e"><td class="memItemLeft" align="right" valign="top"><a id="a95a275252486f3166bdd13d329b7b74e" name="a95a275252486f3166bdd13d329b7b74e"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>motor_driver.in2pin</b> = pyb.Pin(pyb.Pin.board.PB5, pyb.Pin.OUT_PP)</td></tr>
-<tr class="separator:a95a275252486f3166bdd13d329b7b74e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad75e045f886bf7cd3119fed0a79732e2" id="r_ad75e045f886bf7cd3119fed0a79732e2"><td class="memItemLeft" align="right" valign="top"><a id="ad75e045f886bf7cd3119fed0a79732e2" name="ad75e045f886bf7cd3119fed0a79732e2"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>motor_driver.a_timer</b> = pyb.Timer(3, freq=1000)</td></tr>
-<tr class="separator:ad75e045f886bf7cd3119fed0a79732e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99f8817afc0acd09fc7a997bfc1adc36" id="r_a99f8817afc0acd09fc7a997bfc1adc36"><td class="memItemLeft" align="right" valign="top"><a id="a99f8817afc0acd09fc7a997bfc1adc36" name="a99f8817afc0acd09fc7a997bfc1adc36"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>motor_driver.moe</b> = <a class="el" href="classmotor__driver_1_1_motor_driver.html">MotorDriver</a>(a_pin, in1pin, in2pin, a_timer)</td></tr>
-<tr class="separator:a99f8817afc0acd09fc7a997bfc1adc36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e474b05917aff7bf5c16737c201f87c" id="r_a9e474b05917aff7bf5c16737c201f87c"><td class="memItemLeft" align="right" valign="top"><a id="a9e474b05917aff7bf5c16737c201f87c" name="a9e474b05917aff7bf5c16737c201f87c"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>motor_control.des_pos</b> = 10</td></tr>
+<tr class="separator:a9e474b05917aff7bf5c16737c201f87c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdca063dbb51c378f596c6ca4ab05063" id="r_afdca063dbb51c378f596c6ca4ab05063"><td class="memItemLeft" align="right" valign="top"><a id="afdca063dbb51c378f596c6ca4ab05063" name="afdca063dbb51c378f596c6ca4ab05063"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>motor_control.curr_pos</b> = 0</td></tr>
+<tr class="separator:afdca063dbb51c378f596c6ca4ab05063"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad90b6d535ec3e567e4d88dcb9e9bc810" id="r_ad90b6d535ec3e567e4d88dcb9e9bc810"><td class="memItemLeft" align="right" valign="top"><a id="ad90b6d535ec3e567e4d88dcb9e9bc810" name="ad90b6d535ec3e567e4d88dcb9e9bc810"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>motor_control.con</b> = <a class="el" href="classmotor__control_1_1_motor_control.html">MotorControl</a>(0, 0, 0, 0)</td></tr>
+<tr class="separator:ad90b6d535ec3e567e4d88dcb9e9bc810"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a771f767781bfc36de42b3013765f8e53" id="r_a771f767781bfc36de42b3013765f8e53"><td class="memItemLeft" align="right" valign="top"><a id="a771f767781bfc36de42b3013765f8e53" name="a771f767781bfc36de42b3013765f8e53"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>motor_control.output</b> = con.run(curr_pos, 10)</td></tr>
+<tr class="separator:a771f767781bfc36de42b3013765f8e53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This program creates the class "MotorDriver" which initializes the GPIO pins as PWM outputs for one motor. </p>
-<p>This class also contains the ability to enable the motor, disable the motor, and set the PWM percent duty-cycle. </p>
+<div class="textblock"><p>This program creates the class "MotorControl" which initializes the required values for a proportional controller. </p>
+<p>This class also contains the methods to calculate the required effort off of an input position, to set the setpoint, and to set PID controller gains. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="motor__driver_8py.html">motor_driver.py</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="motor__control_8py.html">motor_control.py</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
   </ul>
 </div>

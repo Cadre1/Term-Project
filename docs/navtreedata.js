@@ -24,7 +24,7 @@
 */
 var NAVTREE =
 [
-  [ "Nerf Gun Turret", "index.html", [
+  [ "Automated Nerf Gun Turret", "index.html", [
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],

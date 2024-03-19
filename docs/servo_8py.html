@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.10.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Nerf Gun Turret: src/motor_control.py File Reference</title>
+<title>Automated Nerf Gun Turret: src/servo.py File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -27,9 +27,9 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Nerf Gun Turret<span id="projectnumber">&#160;0.1.0</span>
+   <div id="projectname">Automated Nerf Gun Turret
    </div>
-   <div id="projectbrief">Term Project for ME 405</div>
+   <div id="projectbrief">ME 405 Term Project</div>
   </td>
  </tr>
  </tbody>
@@ -66,7 +66,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(function(){initNavTree('motor__control_8py.html',''); initResizable(); });
+$(function(){initNavTree('servo_8py.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -95,43 +95,40 @@ $(function(){initNavTree('motor__control_8py.html',''); initResizable(); });
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#var-members">Variables</a>  </div>
-  <div class="headertitle"><div class="title">motor_control.py File Reference</div></div>
+  <div class="headertitle"><div class="title">servo.py File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>This program creates the class "MotorControl" which initializes the required values for a proportional controller.  
+<p>This program creates the class "Servo" which initializes the GPIO pins as PWM outputs for a servo motor.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmotor__control_1_1_motor_control.html">motor_control.MotorControl</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class creates a Proportional, Integral, Derivative Gain Controller to be used with a motor-encoder system.  <a href="classmotor__control_1_1_motor_control.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classservo_1_1_servo.html">servo.Servo</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This class sets up a servo motor with angle control.  <a href="classservo_1_1_servo.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a9e474b05917aff7bf5c16737c201f87c" id="r_a9e474b05917aff7bf5c16737c201f87c"><td class="memItemLeft" align="right" valign="top"><a id="a9e474b05917aff7bf5c16737c201f87c" name="a9e474b05917aff7bf5c16737c201f87c"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>motor_control.des_pos</b> = 10</td></tr>
-<tr class="separator:a9e474b05917aff7bf5c16737c201f87c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afdca063dbb51c378f596c6ca4ab05063" id="r_afdca063dbb51c378f596c6ca4ab05063"><td class="memItemLeft" align="right" valign="top"><a id="afdca063dbb51c378f596c6ca4ab05063" name="afdca063dbb51c378f596c6ca4ab05063"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>motor_control.curr_pos</b> = 0</td></tr>
-<tr class="separator:afdca063dbb51c378f596c6ca4ab05063"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad90b6d535ec3e567e4d88dcb9e9bc810" id="r_ad90b6d535ec3e567e4d88dcb9e9bc810"><td class="memItemLeft" align="right" valign="top"><a id="ad90b6d535ec3e567e4d88dcb9e9bc810" name="ad90b6d535ec3e567e4d88dcb9e9bc810"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>motor_control.con</b> = <a class="el" href="classmotor__control_1_1_motor_control.html">MotorControl</a>(0, 0, 0, 0)</td></tr>
-<tr class="separator:ad90b6d535ec3e567e4d88dcb9e9bc810"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a771f767781bfc36de42b3013765f8e53" id="r_a771f767781bfc36de42b3013765f8e53"><td class="memItemLeft" align="right" valign="top"><a id="a771f767781bfc36de42b3013765f8e53" name="a771f767781bfc36de42b3013765f8e53"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>motor_control.output</b> = con.run(curr_pos, 10)</td></tr>
-<tr class="separator:a771f767781bfc36de42b3013765f8e53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a563a285e5333ca836112587799e9efe9" id="r_a563a285e5333ca836112587799e9efe9"><td class="memItemLeft" align="right" valign="top"><a id="a563a285e5333ca836112587799e9efe9" name="a563a285e5333ca836112587799e9efe9"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>servo.servo_pin</b> = pyb.Pin(pyb.Pin.board.PA8, pyb.Pin.OUT_PP)</td></tr>
+<tr class="separator:a563a285e5333ca836112587799e9efe9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0259752c5e5e6030d6067d349ff7adf0" id="r_a0259752c5e5e6030d6067d349ff7adf0"><td class="memItemLeft" align="right" valign="top"><a id="a0259752c5e5e6030d6067d349ff7adf0" name="a0259752c5e5e6030d6067d349ff7adf0"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>servo.s_timer</b> = pyb.Timer(1, prescaler=79, period=19999)</td></tr>
+<tr class="separator:a0259752c5e5e6030d6067d349ff7adf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfbb532402f34e815c4a9018e923f526" id="r_abfbb532402f34e815c4a9018e923f526"><td class="memItemLeft" align="right" valign="top"><a id="abfbb532402f34e815c4a9018e923f526" name="abfbb532402f34e815c4a9018e923f526"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>servo.my_servo</b> = <a class="el" href="classservo_1_1_servo.html">Servo</a>(pin=servo_pin, timer=s_timer, zero_angle=80)</td></tr>
+<tr class="separator:abfbb532402f34e815c4a9018e923f526"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>This program creates the class "MotorControl" which initializes the required values for a proportional controller. </p>
-<p>This class also contains the methods to calculate the required effort off of an input position, to set the setpoint, and to set PID controller gains. </p>
+<div class="textblock"><p>This program creates the class "Servo" which initializes the GPIO pins as PWM outputs for a servo motor. </p>
+<p>This class also contains the ability to set the absolute and relative servo position. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="motor__control_8py.html">motor_control.py</a></li>
+    <li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="servo_8py.html">servo.py</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.10.0 </li>
   </ul>
 </div>
