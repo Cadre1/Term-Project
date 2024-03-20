@@ -14,7 +14,8 @@ Our project introduces an autonomous turret system designed to enhance target ac
 The Project in Action - https://youtu.be/ceA77QBQG_Y?si=SO-bap_1HtrvdEz_
 
 # Hardware Design
-<INSERT CAD IMAGE HERE>
+![image](https://github.com/Cadre1/Term-Project/assets/156386309/14a63418-f225-4f98-84ee-75bd75f43966)
+
 
 # Electronic Schematic
 ![image](https://github.com/Cadre1/Term-Project/assets/156386309/85fd8def-7f5e-48b9-8cd7-d34d9cd2ef06)
