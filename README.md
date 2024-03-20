@@ -7,14 +7,17 @@
 # Introduction
 Our project introduces an autonomous turret system designed to enhance target acquisition and firing capabilities for Nerf or similar projectile launchers. The primary purpose of our device is to autonomously locate the centroid of heat in a designated area and adjust the yaw of the Nerf gun to aim precisely at the detected target. While the pitch remains fixed, our turret system ensures accurate horizontal alignment for firing at the identified heat source. The device is primarily intended for recreational use, targeting enthusiasts of Nerf or similar foam projectile launchers who seek an enhanced and automated shooting experience. Additionally, our turret system can be of interest to hobbyists, makers, and engineering students interested in exploring mechatronics, automation, and robotics applications. With its autonomous targeting capabilities, the device offers a unique and engaging way to enjoy Nerf battles while showcasing advancements in technology integration and automation.
 
-# Hardware Design
+# Final Product
 ![20240315_135635](https://github.com/Cadre1/Term-Project/assets/55156855/13e64ac5-0520-4c69-b7a5-7084ba4032b9)
 ![20240315_135642](https://github.com/Cadre1/Term-Project/assets/55156855/f875bbc5-17c6-4bc6-b902-88512c888c7d)
 
-Electronic Schematic:
+The Project in Action - https://youtu.be/ceA77QBQG_Y?si=SO-bap_1HtrvdEz_
+
+# Hardware Design
+<INSERT CAD IMAGE HERE>
+
+# Electronic Schematic
 ![image](https://github.com/Cadre1/Term-Project/assets/156386309/85fd8def-7f5e-48b9-8cd7-d34d9cd2ef06)
-
-
 
 # Software Design
 ![image](https://github.com/Cadre1/Term-Project/assets/55156855/35797bbd-3ab6-4ab8-95d5-6899b830bee7)
@@ -43,5 +46,3 @@ The STM32L476 Nucleo User Manual - https://www.st.com/resource/en/user_manual/um
 The MLX90640 Thermal Camera Datasheet - https://www.melexis.com/en/documents/documentation/datasheets/datasheet-mlx90640
 
 The ___ Servo Motor Datasheet - <INSERT DATASHEET>
-
-The Project in Action - https://youtu.be/ceA77QBQG_Y?si=SO-bap_1HtrvdEz_
