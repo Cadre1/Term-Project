@@ -27,7 +27,9 @@ Using the electronic schematic shown here, we wired the STM32 Nucleo to its corr
 ![image](https://github.com/Cadre1/Term-Project/assets/156386309/85fd8def-7f5e-48b9-8cd7-d34d9cd2ef06)
 
 # Software Design
-Using the finite state machines shown here, we programmed our system accordingly to produce our controlled results.
+Using the finite state machines shown here, we programmed our system accordingly to produce our controlled results. 
+
+The program documentation can be found here - https://cadre1.github.io/Term-Project/
 
 ![image](https://github.com/Cadre1/Term-Project/assets/55156855/35797bbd-3ab6-4ab8-95d5-6899b830bee7)
 ![image](https://github.com/Cadre1/Term-Project/assets/55156855/cc1501a2-59ac-47d4-a599-750216bdc687)
