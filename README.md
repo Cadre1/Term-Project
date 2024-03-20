@@ -10,6 +10,8 @@ Our project introduces an autonomous turret system designed to enhance target ac
 # Final Product
 ![20240315_135635](https://github.com/Cadre1/Term-Project/assets/55156855/13e64ac5-0520-4c69-b7a5-7084ba4032b9)
 ![20240315_135642](https://github.com/Cadre1/Term-Project/assets/55156855/f875bbc5-17c6-4bc6-b902-88512c888c7d)
+![20240312_233611](https://github.com/Cadre1/Term-Project/assets/55156855/3b1dd39f-36ef-4f7a-80c1-1240762ae399)
+
 
 The Project in Action - https://youtu.be/ceA77QBQG_Y?si=SO-bap_1HtrvdEz_
 
