@@ -17,15 +17,18 @@ The Project in Action - https://youtu.be/ceA77QBQG_Y?si=SO-bap_1HtrvdEz_
 
 # Hardware Design
 Using the CAD model shown here and parts provided in the CAD folder, we developed laser printed wood parts for the main structural design of the turret along with specific 3D printed parts for components such as electronic fixtures, gears, and other small parts with sizings measured for the actual products. 
+
 ![image](https://github.com/Cadre1/Term-Project/assets/156386309/14a63418-f225-4f98-84ee-75bd75f43966)
 
 
 # Electronic Schematic
 Using the electronic schematic shown here, we wired the STM32 Nucleo to its corresponding electronic components with extended wires and external power sources.
+
 ![image](https://github.com/Cadre1/Term-Project/assets/156386309/85fd8def-7f5e-48b9-8cd7-d34d9cd2ef06)
 
 # Software Design
 Using the finite state machines shown here, we programmed our system accordingly to produce our controlled results.
+
 ![image](https://github.com/Cadre1/Term-Project/assets/55156855/35797bbd-3ab6-4ab8-95d5-6899b830bee7)
 ![image](https://github.com/Cadre1/Term-Project/assets/55156855/cc1501a2-59ac-47d4-a599-750216bdc687)
 
