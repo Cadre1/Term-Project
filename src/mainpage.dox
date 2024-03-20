@@ -1,0 +1,72 @@
+/*! \mainpage
+ *
+ * This document will provide a description of the overall organization and function of the software used for the Automated Nerf Gun Turret.
+ * 
+ * Program operations, file descriptions, and hardware can be found here:
+ * - \subpage finiteStateMachinePage "Finite State Machines"
+ *
+ * - \subpage fileDescriptionPage "File Descriptions"
+ *
+ * - \subpage hardwareInformationPage "Hardware Information"
+ *
+ */ 
+
+/*! \page finiteStateMachinePage Finite State Machines
+ *
+ * The main.py program provided in this documentation contains two tasks, Timing and Shooting, that follow the two finite state machines as 
+ * seen below. 
+ * 
+ * The Timing task is used to set timers for each major event in the shootout and then set flags for the Shooting task to change
+ * modes correspondingly. The states are as follows:
+ * - S0 Init: Initializes the required pins and flags used in the Timing task.
+ * - S1 Wait For Input: Waits for an input from the initialized GPIO pin wired to the starting button.
+ * - S2 Wait For Start: Waits 5 seconds for the starting phase, in which the target can move around, to end.
+ * - S3 Wait For Stop: Waits 10 seconds for the shooting phase, in which the turret is allowed to fire, to end.
+ * - S4 Stopped: Waits 1 second for the for the turret to stop before returning to its original position.
+ * - S5 Return: Waits 3 seconds for the for the turret to return to its original position.
+ *
+ * The Shooting task manages the turning, aiming, and firing during the shootout with its states set by the Timing task flags correspondingly.
+ * The states are as follows:
+ * - S0 Init Power: Initializes the required pins, timers, I2C channels, drivers, controller variables, and miscellaneous setting variables 
+ * for the panning motor, encoder, flywheel GPIO pin, thermal camera, and servo.
+ * - S1 Wait For Start: Rotates the turret 180 degrees and waits during the initial 5 seconds until the Timer task sets the Start_Flag.
+ * - S2 Locate: Uses the thermal camera to determine the centroid/hotspot where the target should be locatedand calculates the required 
+ * position the motor needs to move to.
+ * - S3 Target: Uses the motor position calculated from the Locate state to rotate the turret correspondingly.
+ * - S4 Shoot: Uses the flywheel and servo to pull the trigger and fire the Nerf dart at the motors set position.
+ * - S5 Stop: Stops all motor motion and resets the servo.
+ * - S6 Return: Rotates the turret back to 0 degrees and disables the motors and waits.
+ * 
+ *  \image html Task1_FSM.png
+ *  \image html Task2_FSM.png
+ *
+ */
+
+/*! \page fileDescriptionPage File Descriptions
+ *
+ * Brief file descriptions:
+ * - \ref "main.py": The main program to be ran on the STM32 Nucleo Microcontroller. Manages the multitasking of the two tasks as described 
+ * in the \ref finiteStateMachinePage section.
+ * - \ref "term_project.py": The main program to be ran on a PC connected to the operating microcontroller. Contains a simple GUI button that 
+ * restarts the microcontroller, allowing the \ref "main.py" program to be ran.
+ * - \ref "motor_control.py": A supporting module that creates the class "MotorControl" which contains methods to implement a PID controller
+ * to the motor-encoder system.
+ * - \ref "motor_driver.py": A supporting module that creates the class "MotorDriver" to initialize and control a brushed DC motor connected 
+ * through the hardware motor driver.
+ * - \ref "encoder_reader.py": A supporting module that creates the class "Encoder" to initialize and collect position data from the brushed 
+ * DC motor with an internal encoder.
+ * - \ref "servo.py": A supporting module that creates the class "Servo" to initialize and control the angular position of a servo motor.
+ * - \ref "mlx_cam.py": A supporting module that creates the class "MLX_Cam" to initialize and manipulate temperature readings from an I2C
+ * thermal camera.
+ *
+ */
+
+/*! \page hardwareInformationPage Hardware Information
+ *
+ * Relevant Hardware Information:
+ * - MLX90640 Thermal Camera Datasheet: https://www.melexis.com/en/documents/documentation/datasheets/datasheet-mlx90640
+ * - HEXFLY 25kg Metal Gear Servo Specifications: https://www.redcatracing.com/products/rer11856?variant=30993858625626
+ * - STM32L476 Nucleo User Manual: https://www.st.com/resource/en/user_manual/um1724-stm32-nucleo64-boards-mb1136-stmicroelectronics.pdf
+ * - Brushed DC Motor with Encoder Source: https://www.ebay.ca/itm/225389316266?hash=item347a4008aa:g:Ji0AAOSw2dxj2WtY
+ *
+ */

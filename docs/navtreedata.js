@@ -25,6 +25,9 @@
 var NAVTREE =
 [
   [ "Automated Nerf Gun Turret", "index.html", [
+    [ "Finite State Machines", "finite_state_machine_page.html", null ],
+    [ "File Descriptions", "file_description_page.html", null ],
+    [ "Hardware Information", "hardware_information_page.html", null ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
