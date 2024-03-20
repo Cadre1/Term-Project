@@ -5,7 +5,7 @@
 
 
 # Introduction
-Our project introduces an autonomous turret system designed to enhance target acquisition and firing capabilities for Nerf or similar projectile launchers. The primary purpose of our device is to autonomously locate the centroid of heat in a designated area and adjust the yaw of the Nerf gun to aim precisely at the detected target. While the pitch remains fixed, our turret system ensures accurate horizontal alignment for firing at the identified heat source. The device is primarily intended for recreational use, targeting enthusiasts of Nerf or similar foam projectile launchers who seek an enhanced and automated shooting experience. Additionally, our turret system can be of interest to hobbyists, makers, and engineering students interested in exploring mechatronics, automation, and robotics applications. With its autonomous targeting capabilities, the device offers a unique and engaging way to enjoy Nerf battles while showcasing advancements in technology integration and automation.
+This project introduces an autonomous turret system designed to enhance target acquisition and firing capabilities for Nerf or similar projectile launchers. The primary purpose of our device is to autonomously locate the centroid of heat in a designated area and adjust the yaw of the Nerf gun to aim precisely at the detected target. While the pitch remains fixed, our turret system ensures accurate horizontal alignment for firing at the identified heat source. The device is primarily intended for recreational use, targeting enthusiasts of Nerf or similar foam projectile launchers who seek an enhanced and automated shooting experience. Additionally, our turret system can be of interest to hobbyists, makers, and engineering students interested in exploring mechatronics, automation, and robotics applications. With its autonomous targeting capabilities, the device offers a unique and engaging way to enjoy Nerf battles while showcasing advancements in technology integration and automation.
 
 # Final Product
 ![20240315_135635](https://github.com/Cadre1/Term-Project/assets/55156855/13e64ac5-0520-4c69-b7a5-7084ba4032b9)
@@ -51,8 +51,10 @@ Hardware and software manuals and support documents:
 
 Helpful Code for ME 405 - https://github.com/spluttflob/ME405-Support
 
-The STM32L476 Nucleo User Manual - https://www.st.com/resource/en/user_manual/um1724-stm32-nucleo64-boards-mb1136-stmicroelectronics.pdf
+STM32L476 Nucleo User Manual - https://www.st.com/resource/en/user_manual/um1724-stm32-nucleo64-boards-mb1136-stmicroelectronics.pdf
 
-The MLX90640 Thermal Camera Datasheet - https://www.melexis.com/en/documents/documentation/datasheets/datasheet-mlx90640
+MLX90640 Thermal Camera Datasheet - https://www.melexis.com/en/documents/documentation/datasheets/datasheet-mlx90640
 
-The HEXFLY 25kg Metal Gear Servo Specifications - https://www.redcatracing.com/products/rer11856?variant=30993858625626
+HEXFLY 25kg Metal Gear Servo Specifications - https://www.redcatracing.com/products/rer11856?variant=30993858625626
+
+
