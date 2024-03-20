@@ -45,4 +45,4 @@ The STM32L476 Nucleo User Manual - https://www.st.com/resource/en/user_manual/um
 
 The MLX90640 Thermal Camera Datasheet - https://www.melexis.com/en/documents/documentation/datasheets/datasheet-mlx90640
 
-The ___ Servo Motor Datasheet - <INSERT DATASHEET>
+The HEXFLY 25kg Metal Gear Servo Specifications - https://www.redcatracing.com/products/rer11856?variant=30993858625626
