@@ -57,4 +57,8 @@ MLX90640 Thermal Camera Datasheet - https://www.melexis.com/en/documents/documen
 
 HEXFLY 25kg Metal Gear Servo Specifications - https://www.redcatracing.com/products/rer11856?variant=30993858625626
 
+IRLB8721PbF MOSFET Datasheet - https://www.infineon.com/dgdl/irlb8721pbf.pdf?fileId=5546d462533600a40153566056732591
 
+L7805CV Voltage Regulator Datasheet - https://www.mouser.com/datasheet/2/389/l78-1849632.pdf
+
+Nerf Gun - https://www.amazon.com/NERF-Motorized-Blaster-6-Dart-Compatible/dp/B08HSRQ1QV?source=ps-sl-shoppingads-lpcontext&ref_=fplfs&psc=1&smid=A2WM0OF2NX07WG
